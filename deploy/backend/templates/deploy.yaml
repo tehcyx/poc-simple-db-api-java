@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   labels:
+      app: simple-db-api-java
+   name: simple-db-api-java
+   namespace: {{ .Release.Namespace }}
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: simple-db-api-java
+   template:
+      metadata:
+         labels:    
+            app: simple-db-api-java
+         annotations:
+            sidecar.istio.io/inject: "true"
+            traffic.sidecar.istio.io/includeInboundPorts: "8080"
+      spec:
+         containers:
+           - name: simple-db-api-java
+             image: tehcyx/simple-db-api-java:0.3.0
+             resources:
+                limits:
+                   memory: 512Mi
+             imagePullPolicy: Always
+             ports:
+              - containerPort: 8080
+                name: http
+             env:
+               - name: POSTGRES_HOST
+                 value: postgres
+               - name: POSTGRES_PORT
+                 value: "5432"
+               - name: POSTGRES_DB
+                 valueFrom:
+                  configMapKeyRef:
+                     name: postgres-config
+                     key: POSTGRES_DB
+               - name: POSTGRES_USER
+                 valueFrom:
+                  configMapKeyRef:
+                     name: postgres-config
+                     key: POSTGRES_USER
+               - name: POSTGRES_PASSWORD
+                 valueFrom:
+                  secretKeyRef:
+                     name: postgres-secret
+                     key: POSTGRES_PASSWORD
+             livenessProbe:
+               initialDelaySeconds: 3
+               periodSeconds: 10
+               httpGet:
+                  path: /actuator/health
+                  port: 8080

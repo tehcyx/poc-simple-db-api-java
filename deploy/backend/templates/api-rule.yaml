@@ -1,0 +1,18 @@
+apiVersion: gateway.kyma-project.io/v1alpha1
+kind: APIRule
+metadata:
+  name: simple-db-api-java
+  namespace: {{ .Release.Namespace }}
+spec:
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  rules:
+  - accessStrategies:
+    - handler: noop
+    methods:
+    - GET
+    path: /.*
+  service:
+    host: simple-db-api-java-{{ .Release.Namespace }}.{{ .Values.domain }}
+    name: simple-db-api-java
+    port: 8081
+  

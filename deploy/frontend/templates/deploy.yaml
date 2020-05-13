@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   labels:
+      app: simple-db-api-frontend
+   name: simple-db-api-frontend
+   namespace: {{ .Release.Namespace }}
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: simple-db-api-frontend
+   template:
+      metadata:
+         labels:    
+            app: simple-db-api-frontend
+         annotations:
+            sidecar.istio.io/inject: "true"
+            traffic.sidecar.istio.io/includeInboundPorts: "8081"
+      spec:
+         containers:
+           - name: simple-db-api-frontend
+             image: tehcyx/simple-db-api-frontend:0.2.0
+             resources:
+                limits:
+                   memory: 512Mi
+             imagePullPolicy: Always
+             ports:
+              - containerPort: 8081
+                name: http
+             env:
+              - name: BACKEND_URL
+                value: "http://simple-db-api:8080"
+             livenessProbe:
+               initialDelaySeconds: 3
+               periodSeconds: 3
+               httpGet:
+                  path: /healthz
+                  port: 8081
