@@ -2,26 +2,26 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
    labels:
-      app: postgres
-   name: postgres
+      app: postgres-java
+   name: postgres-java
    namespace: {{ .Release.Namespace }}
 spec:
-   serviceName: "postgres"
+   serviceName: "postgres-java"
    replicas: 1
    selector:
       matchLabels:
-         app: postgres
+         app: postgres-java
    template:
       metadata:
          labels:
-            app: postgres
+            app: postgres-java
          annotations:
             sidecar.istio.io/inject: "true"
             traffic.sidecar.istio.io/includeInboundPorts: "5432"
       spec:
          containers:
-            - name: postgres
-              image: tehcyx/postgres:0.2.0
+            - name: postgres-java
+              image: tehcyx/postgres:0.3.0
               env:
                - name: POSTGRES_DB
                  valueFrom:
@@ -40,11 +40,11 @@ spec:
                      key: POSTGRES_PASSWORD
               ports:
               - containerPort: 5432
-                name: postgresdb
+                name: postgresdb-java
               volumeMounts:
-              - name: postgresdb
+              - name: postgresdb-java
                 mountPath: /var/lib/postgresql/data
          volumes:
-            - name: postgresdb
+            - name: postgresdb-java
               persistentVolumeClaim:
-                claimName: postgres-pv-claim
+                claimName: postgres-pv-claim-java

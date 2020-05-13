@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: postgres-config
   labels:
-    app: postgres
+    app: postgres-java
   namespace: {{ .Release.Namespace }}
 data:
   POSTGRES_DB: {{ .Values.db.database }}

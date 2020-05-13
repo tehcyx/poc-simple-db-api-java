@@ -1,10 +1,10 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: postgres-pv-volume
+  name: postgres-pv-volume-java
   labels:
     type: local
-    app: postgres
+    app: postgres-java
   namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: manual
@@ -18,9 +18,9 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgres-pv-claim
+  name: postgres-pv-claim-java
   labels:
-    app: postgres
+    app: postgres-java
   namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: manual
@@ -28,4 +28,4 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 256Mi
+      storage: 16Mi
