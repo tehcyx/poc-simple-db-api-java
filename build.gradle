@@ -24,7 +24,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	implementation('org.postgresql:postgresql')
+	implementation('org.postgresql:postgresql:42.2.12')
     implementation("com.google.guava:guava:29.0-jre")
 
 	compile("org.springframework.boot:spring-boot-starter-actuator")

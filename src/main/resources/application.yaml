@@ -3,6 +3,8 @@ spring:
         url:
         username:
         password:
+        testWhileIdle: true
+        validationQuery: SELECT 1
     jpa:
         hibernate:
             ddl-auto: update
