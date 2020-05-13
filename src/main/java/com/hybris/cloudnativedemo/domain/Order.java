@@ -1,13 +1,14 @@
 package com.hybris.cloudnativedemo.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table
-public class Order {
+@Table(name = "orders")
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,9 +30,8 @@ public class Order {
     @JsonProperty("baseSiteUid")
     private String baseSiteUid;
 
-    @JsonProperty("items")
-    @ElementCollection
-    private List<Item> items;
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Item> items;
 
     public Integer getVersion() {
         return version;
@@ -81,7 +81,7 @@ public class Order {
         this.baseSiteUid = uid;
     }
 
-    public List<Item> getitems() { return this.items; }
+    public Set<Item> getitems() { return this.items; }
 
-    public void setitems(List<Item> items) { this.items = items; }
+    public void setitems(Set<Item> items) { this.items = items; }
 }

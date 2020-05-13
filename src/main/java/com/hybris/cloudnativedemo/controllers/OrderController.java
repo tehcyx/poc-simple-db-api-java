@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+import com.google.common.collect.Sets;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -26,20 +27,20 @@ public class OrderController {
     RestTemplate restTemplate;
 
     @GetMapping("/read")
-    public List<Order> read(){
-        return orderRepository.findAll();
+    public Set<Order> read(){
+        return Sets.newHashSet(orderRepository.findAll());
     }
 
     @PostMapping("/create")
     public Order create(@Valid @RequestBody Order order) {
         System.out.println(gateway_url);
         System.out.println(gateway_url + "/" + order.getBaseSiteUid() + "/orders/" + order.getOrderCode());
-        if (gateway_url != null) {
+        if (gateway_url != null && !gateway_url.equals("")) {
             String requestUrl = gateway_url + "/" + order.getBaseSiteUid() + "/orders/" + order.getOrderCode();
             CommerceOrder ord = restTemplate.getForObject(
                     requestUrl, CommerceOrder.class);
 
-            List<Item> items = new ArrayList<Item>();
+            Set<Item> items = new HashSet<Item>();
             for (CommerceOrder.Entry item : ord.getentries()) {
                 Item i = new Item();
                 i.setname(item.getproduct().getname());
