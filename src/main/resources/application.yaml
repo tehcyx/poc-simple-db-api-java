@@ -1,0 +1,15 @@
+spring:
+    datasource:
+        url:
+        username:
+        password:
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+    port: 8080
+
