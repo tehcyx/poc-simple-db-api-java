@@ -30,7 +30,7 @@ spec:
                 name: http
              env:
                - name: POSTGRES_HOST
-                 value: postgres-java
+                 value: postgres-java.{{ .Release.Namespace }}
                - name: POSTGRES_PORT
                  value: "5432"
                - name: POSTGRES_DB
