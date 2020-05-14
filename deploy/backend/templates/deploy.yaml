@@ -20,7 +20,7 @@ spec:
       spec:
          containers:
            - name: simple-db-api-java
-             image: tehcyx/simple-db-api-java:0.3.0
+             image: tehcyx/simple-db-api-java:0.4.1
              resources:
                 limits:
                    memory: 512Mi
