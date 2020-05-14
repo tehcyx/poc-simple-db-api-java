@@ -17,7 +17,6 @@ spec:
          annotations:
             sidecar.istio.io/inject: "true"
             traffic.sidecar.istio.io/includeInboundPorts: "8080"
-            traffic.sidecar.istio.io/includeOutboundPorts: "5433"
       spec:
          containers:
            - name: simple-db-api-java
@@ -34,7 +33,7 @@ spec:
                - name: POSTGRES_HOST
                  value: postgres-java.{{ .Release.Namespace }}.svc.cluster.local
                - name: POSTGRES_PORT
-                 value: "5433"
+                 value: "5432"
                - name: POSTGRES_DB
                  valueFrom:
                   configMapKeyRef:

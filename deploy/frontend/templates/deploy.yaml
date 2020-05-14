@@ -20,7 +20,7 @@ spec:
       spec:
          containers:
            - name: simple-db-api-frontend
-             image: tehcyx/simple-db-api-frontend:0.4.2
+             image: tehcyx/simple-db-api-frontend:0.4.3
              resources:
                 limits:
                    memory: 512Mi
@@ -30,7 +30,7 @@ spec:
                 name: http
              env:
               - name: BACKEND_URL
-                value: "http://simple-db-api:8080"
+                value: "http://simple-db-api-java:8080"
              livenessProbe:
                initialDelaySeconds: 3
                periodSeconds: 3
