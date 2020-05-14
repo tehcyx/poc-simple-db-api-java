@@ -6,9 +6,8 @@ metadata:
   name: postgres-java
   namespace: {{ .Release.Namespace }}
 spec:
-  clusterIP: None
+  type: NodePort
   ports:
     - port: 5433
-      name: postgres-java
   selector:
     app: postgres-java

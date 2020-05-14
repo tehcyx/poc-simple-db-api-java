@@ -5,7 +5,7 @@ set -ex
 # bash array
 ARGS=()
 
-DB_URL="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+DB_URL="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?useSSL=false"
 
 ARGS+=(-Dspring.datasource.url="${DB_URL}" -Dspring.datasource.username="${POSTGRES_USER}" -Dspring.datasource.password="${POSTGRES_PASSWORD}")
 

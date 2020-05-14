@@ -17,10 +17,11 @@ spec:
          annotations:
             sidecar.istio.io/inject: "true"
             traffic.sidecar.istio.io/includeInboundPorts: "8080"
+            traffic.sidecar.istio.io/includeOutboundPorts: "5433"
       spec:
          containers:
            - name: simple-db-api-java
-             image: tehcyx/simple-db-api-java:0.4.1
+             image: tehcyx/simple-db-api-java:0.4.2
              resources:
                 limits:
                    memory: 512Mi
@@ -31,7 +32,7 @@ spec:
                 name: http
              env:
                - name: POSTGRES_HOST
-                 value: postgres-java.{{ .Release.Namespace }}
+                 value: postgres-java.{{ .Release.Namespace }}.svc.cluster.local
                - name: POSTGRES_PORT
                  value: "5433"
                - name: POSTGRES_DB
@@ -49,15 +50,3 @@ spec:
                   secretKeyRef:
                      name: postgres-secret
                      key: POSTGRES_PASSWORD
-             livenessProbe:
-               failureThreshold: 1
-               periodSeconds: 10
-               httpGet:
-                  path: /actuator/health
-                  port: http
-             startupProbe:
-               failureThreshold: 30
-               periodSeconds: 10
-               httpGet:
-                  path: /actuator/health
-                  port: http
