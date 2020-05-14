@@ -17,7 +17,7 @@ spec:
             app: postgres-java
          annotations:
             sidecar.istio.io/inject: "true"
-            traffic.sidecar.istio.io/includeInboundPorts: "5432"
+            traffic.sidecar.istio.io/includeInboundPorts: "5433"
       spec:
          containers:
             - name: postgres-java
@@ -39,7 +39,7 @@ spec:
                      name: postgres-secret
                      key: POSTGRES_PASSWORD
               ports:
-              - containerPort: 5432
+              - containerPort: 5433
                 name: postgresdb-java
               volumeMounts:
               - name: postgresdb-java

@@ -27,12 +27,13 @@ spec:
              imagePullPolicy: Always
              ports:
               - containerPort: 8080
+                hostPort: 8080
                 name: http
              env:
                - name: POSTGRES_HOST
                  value: postgres-java.{{ .Release.Namespace }}
                - name: POSTGRES_PORT
-                 value: "5432"
+                 value: "5433"
                - name: POSTGRES_DB
                  valueFrom:
                   configMapKeyRef:
@@ -49,8 +50,14 @@ spec:
                      name: postgres-secret
                      key: POSTGRES_PASSWORD
              livenessProbe:
-               initialDelaySeconds: 3
+               failureThreshold: 1
                periodSeconds: 10
                httpGet:
                   path: /actuator/health
-                  port: 8080
+                  port: http
+             startupProbe:
+               failureThreshold: 30
+               periodSeconds: 10
+               httpGet:
+                  path: /actuator/health
+                  port: http
