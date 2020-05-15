@@ -3,6 +3,7 @@ package com.hybris.cloudnativedemo.controllers;
 import com.hybris.cloudnativedemo.domain.Order;
 import com.hybris.cloudnativedemo.domain.Item;
 import com.hybris.cloudnativedemo.domain.CommerceOrder;
+import com.hybris.cloudnativedemo.domain.CommerceOrderEntry;
 import com.hybris.cloudnativedemo.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +34,13 @@ public class OrderController {
 
     @PostMapping("/create")
     public Order create(@Valid @RequestBody Order order) {
-        System.out.println(gateway_url);
-        System.out.println(gateway_url + "/" + order.getBaseSiteUid() + "/orders/" + order.getOrderCode());
         if (gateway_url != null && !gateway_url.equals("")) {
             String requestUrl = gateway_url + "/" + order.getBaseSiteUid() + "/orders/" + order.getOrderCode();
             CommerceOrder ord = restTemplate.getForObject(
                     requestUrl, CommerceOrder.class);
 
             Set<Item> items = new HashSet<Item>();
-            for (CommerceOrder.Entry item : ord.getentries()) {
+            for (CommerceOrderEntry item : ord.getentries()) {
                 Item i = new Item();
                 i.setname(item.getproduct().getname());
                 i.setquantity(item.getquantity());

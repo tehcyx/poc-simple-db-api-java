@@ -6,36 +6,11 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommerceOrder {
 
+    private List<CommerceOrderEntry> entries;
 
-    private List<Entry> entries;
+    public void setentries(List<CommerceOrderEntry> entries) { this.entries = entries; }
 
-    public void setentries(List<Entry> entries) { this.entries = entries; }
-
-    public List<Entry> getentries() { return this.entries; }
-
-    public class Entry {
-
-        private Integer quantity;
-        private Product product;
-
-        public void setquantity(Integer quantity) { this.quantity = quantity; }
-
-        public Integer getquantity() { return this.quantity; }
-
-        public void setproduct(Product product) { this.product = product; }
-
-        public Product getproduct() { return this.product; }
-
-        public class Product {
-            private String name;
-
-            public void setname(String name) { this.name = name; }
-
-            public String getname() { return this.name; }
-        }
-    }
-
-
+    public List<CommerceOrderEntry> getentries() { return this.entries; }
 }
 
 /*
